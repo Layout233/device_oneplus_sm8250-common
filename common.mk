@@ -90,6 +90,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     android.hardware.drm@1.3.vendor \
     android.hardware.drm-service.clearkey \
+    libcrypto-v33 \
     wvmkiller
 
 # fastbootd
@@ -204,6 +205,10 @@ TARGET_COMMON_QTI_COMPONENTS := \
     usb \
     wfd \
     wlan
+
+# QTI fwk-detect
+PRODUCT_PACKAGES += \
+    libvndfwk_detect_jni.qti.vendor:64
 
 # Sensors
 PRODUCT_PACKAGES += \

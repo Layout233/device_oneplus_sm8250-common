@@ -81,7 +81,7 @@ function blob_fixup() {
             "${SIGSCAN}" -p "F1 E9 D3 84 52 49 3F A0 72" -P "F1 A9 00 80 52 09 00 A0 72" -f "${2}"
             ;;
         vendor/lib64/vendor.qti.hardware.camera.postproc@1.0-service-impl.so)
-            "${SIGSCAN}" -p "1F 0A 00 94" -P "1F 20 03 D5" -f "${2}"
+            "${SIGSCAN}" -p "23 0A 00 94" -P "1F 20 03 D5" -f "${2}"
             ;;
         vendor/etc/seccomp_policy/atfwd@2.0.policy)
             [ "$2" = "" ] && return 0
@@ -93,6 +93,10 @@ function blob_fixup() {
         vendor/etc/libnfc-nxp.conf)
             sed -i "/NXPLOG_\w\+_LOGLEVEL/ s/0x03/0x02/" "${2}"
             sed -i "s/NFC_DEBUG_ENABLED=1/NFC_DEBUG_ENABLED=0/" "${2}"
+            ;;
+        vendor/lib64/libwvhidl.so|vendor/lib64/mediadrm/libwvdrmengine.so)
+            [ "$2" = "" ] && return 0
+            grep -q "libcrypto_shim.so" "${2}" || "${PATCHELF}" --add-needed "libcrypto_shim.so" "${2}"
             ;;
     esac
 }
